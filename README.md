@@ -2,6 +2,8 @@
 It's a Flipper plugin for Android ANR detection, the plugin require `Android target sdk 30 or above`
 You can see the more ANR details in flipper and can let you debug easier
 
+![截圖 2023-11-08 下午2 51 10](https://github.com/allen-hsu/ANR-Detection/assets/2819672/c9bf08df-d4cd-4099-9dc1-1afceea0c933)
+
 ## Setup - Android Part
 
 To setup the ANR-Detection plugin, take the following steps:
@@ -9,6 +11,7 @@ To setup the ANR-Detection plugin, take the following steps:
 Ensure that you have an explicit dependency in your application's build.gradle including the plugin dependency, such as is shown in the following snippet:
 
 in your project build.gradle add the following repository
+
 `maven { url = uri("https://jitpack.io") }`
 
 ```
@@ -58,6 +61,5 @@ and you will see the ANR detection in your left side
 
 ![截圖 2023-11-08 下午5 33 11](https://github.com/allen-hsu/ANR-Detection/assets/2819672/8d1891d2-cd25-41af-8c14-a42ddb436338)
 
-## Screenshot
 
-![截圖 2023-11-08 下午2 51 10](https://github.com/allen-hsu/ANR-Detection/assets/2819672/c9bf08df-d4cd-4099-9dc1-1afceea0c933)
+
