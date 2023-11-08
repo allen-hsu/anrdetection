@@ -1,4 +1,4 @@
-# ANR-Detection
+# ANR-Detection [![](https://jitpack.io/v/allen-hsu/anrdetection.svg)](https://jitpack.io/#allen-hsu/anrdetection)
 It's a Flipper plugin for Android ANR detection, the plugin require `Android target sdk 30 or above`
 You can see the more ANR details in flipper and can let you debug easier
 
@@ -7,9 +7,28 @@ You can see the more ANR details in flipper and can let you debug easier
 To setup the ANR-Detection plugin, take the following steps:
 
 Ensure that you have an explicit dependency in your application's build.gradle including the plugin dependency, such as is shown in the following snippet:
-dependencies {
-  debugImplementation 'com.allenhsu.flipper.anrdetection:1.0.0'
+
+in your project build.gradle add the following repository
+`maven { url = uri("https://jitpack.io") }`
+
+```
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
 }
+```
+
+in your app build.gradle add the following dependency
+
+```
+dependencies {
+  debugImplementation("com.github.allen-hsu:anrdetection:1.0.0")
+}
+```
 
 
 Update your the onCreate method in you Application to add the ANR-Detection plugin to Flipper and the Flipper listener to ANR-Detection:
