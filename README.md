@@ -26,7 +26,7 @@ dependencyResolutionManagement {
 
 ```kotlin
 dependencies {
-  debugImplementation("com.github.allen-hsu:anrdetection:1.0.0")
+  debugImplementation("com.github.allen-hsu:anrdetection:1.0.1")
 }
 ```
 3. In your Application class, initialize the ANR-Detection plugin:
