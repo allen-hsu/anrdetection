@@ -57,12 +57,17 @@ class ANRDetectionFlipperPlugin(private val applicationContext: Application) : F
     @Throws(IOException::class)
     private fun convertInputStreamToString(inputStream: InputStream): String? {
         ByteArrayOutputStream().use { byteArrayOutputStream ->
-            val bytes = ByteArray(DEFAULT_BUFFER_SIZE) // Or ByteArray(CodedOutputStream.DEFAULT_BUFFER_SIZE) if you have a specific size in mind.
-            var length: Int
-            while (inputStream.read(bytes).also { length = it } != -1) {
-                byteArrayOutputStream.write(bytes, 0, length)
+            inputStream.use { stream ->
+                val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
+                while (true) {
+                    val length = stream.read(buffer)
+                    if (length == -1) {
+                        break
+                    }
+                    byteArrayOutputStream.write(buffer, 0, length)
+                }
+                return byteArrayOutputStream.toString(StandardCharsets.UTF_8.name())
             }
-            return byteArrayOutputStream.toString(StandardCharsets.UTF_8.name())
         }
     }
 
