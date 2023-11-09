@@ -3,6 +3,7 @@ package com.allenhsu.flipper.anrdetection
 import android.app.ActivityManager
 import android.app.Application
 import android.app.ApplicationExitInfo
+import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.facebook.flipper.core.FlipperConnection
@@ -14,7 +15,7 @@ import java.io.InputStream
 import java.nio.charset.StandardCharsets
 
 @RequiresApi(Build.VERSION_CODES.R)
-class ANRDetectionFlipperPlugin(private val applicationContext: Application) : FlipperPlugin {
+class ANRDetectionFlipperPlugin(private val context: Context) : FlipperPlugin {
     private var connection: FlipperConnection? = null
 
     override fun getId(): String {
@@ -24,7 +25,7 @@ class ANRDetectionFlipperPlugin(private val applicationContext: Application) : F
     override fun onConnect(connection: FlipperConnection?) {
         this.connection = connection
 
-        val activityManager = applicationContext.getSystemService(Application.ACTIVITY_SERVICE) as ActivityManager
+        val activityManager = context.getSystemService(Application.ACTIVITY_SERVICE) as ActivityManager
         val reasons = activityManager.getHistoricalProcessExitReasons(null, 0, 0)
 
         reasons.filter { info ->
