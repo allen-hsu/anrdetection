@@ -5,7 +5,6 @@ import android.app.Application
 import android.app.ApplicationExitInfo
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.datastore.preferences.protobuf.CodedOutputStream
 import com.facebook.flipper.core.FlipperConnection
 import com.facebook.flipper.core.FlipperObject
 import com.facebook.flipper.core.FlipperPlugin
@@ -31,8 +30,6 @@ class ANRDetectionFlipperPlugin(private val applicationContext: Application) : F
         reasons.filter { info ->
             info.reason == ApplicationExitInfo.REASON_ANR
         }.map { info ->
-
-            val callstack = info.traceInputStream?.let { it -> convertInputStreamToString(it) } ?: ""
             FlipperObject.Builder()
                 .put("importance", info.importance)
                 .put("processName", info.processName)
@@ -59,12 +56,17 @@ class ANRDetectionFlipperPlugin(private val applicationContext: Application) : F
 
     @Throws(IOException::class)
     private fun convertInputStreamToString(inputStream: InputStream): String? {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        val bytes = ByteArray(CodedOutputStream.DEFAULT_BUFFER_SIZE)
-        var length: Int
-        while (inputStream.read(bytes).also { length = it } != -1) {
-            byteArrayOutputStream.write(bytes, 0, length)
+        ByteArrayOutputStream().use { byteArrayOutputStream ->
+            val bytes = ByteArray(DEFAULT_BUFFER_SIZE) // Or ByteArray(CodedOutputStream.DEFAULT_BUFFER_SIZE) if you have a specific size in mind.
+            var length: Int
+            while (inputStream.read(bytes).also { length = it } != -1) {
+                byteArrayOutputStream.write(bytes, 0, length)
+            }
+            return byteArrayOutputStream.toString(StandardCharsets.UTF_8.name())
         }
-        return byteArrayOutputStream.toString(StandardCharsets.UTF_8.name())
+    }
+
+    companion object {
+        const val DEFAULT_BUFFER_SIZE = 4096
     }
 }
